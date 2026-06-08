@@ -22,3 +22,17 @@ resource "aws_instance" "vm_01" {
     Name = "vm_01"
   }
 }
+
+resource "aws_ebs_volume" "ebs_volume" {
+  availability_zone = "ap-southeast-1a"
+  size = 10
+  tags = {
+    Name = "ebs_volume"
+  }
+}
+
+resource "aws_volume_attachment" "ebs_volume_attachment" {
+  device_name = "/dev/sdh"
+  volume_id = aws_ebs_volume.ebs_volume.id
+  instance_id = aws_instance.vm_01.id
+}
